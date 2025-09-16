@@ -5,10 +5,21 @@ import {
 } from "@react-navigation/native";
 
 import { registerRootComponent } from "expo";
+
+import * as Notifications from "expo-notifications";
 import { useColorScheme } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AuthStack from "./navigation/AuthStack";
 import MainStack from "./navigation/MainStack";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 
 export default function App() {
@@ -17,14 +28,13 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-    <NavigationContainer
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    >
-     {isLoggedIn && <MainStack/>}
-     {!isLoggedIn && <AuthStack/>}
-    </NavigationContainer>
+      <NavigationContainer
+        theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+      >
+        {isLoggedIn && <MainStack />}
+        {!isLoggedIn && <AuthStack />}
+      </NavigationContainer>
     </SafeAreaProvider>
-
   );
 }
 registerRootComponent(App);
